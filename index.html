@@ -27,6 +27,7 @@
   <button id="runButton">Start game</button>
 
   <script>
+    let score = 0;
     const brickRowCount = 3;
     const brickColumnCount = 5;
     const brickWidth = 75;
@@ -95,6 +96,12 @@
       }
     }
 
+    function drawScore() {
+      ctx.font = "16px Arial";
+      ctx.fillStyle = "#0095DD";
+      ctx.fillText(`Score: ${score}`, 8, 20);
+    }
+
     function drawBall() {
       ctx.beginPath();
       ctx.arc(x, y, ballRadius, 0, Math.PI * 2);
@@ -123,6 +130,12 @@
             ) {
               dy = -dy;
               b.status = 0;
+              score++;
+              if (score === brickRowCount * brickColumnCount) {
+                alert("YOU WIN, CONGRATULATIONS!");
+                document.location.reload();
+                clearInterval(interval); // Needed for Chrome to end game
+              }
             }
           }
         }
@@ -131,6 +144,7 @@
 
     function draw() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
+      drawScore();
       drawBall();
       drawPaddle();
       drawBricks();
@@ -149,6 +163,7 @@
         else {
           alert("GAME OVER");
           document.location.reload();
+          clearInterval(interval);
         }
       }
 
