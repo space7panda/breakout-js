@@ -33,6 +33,8 @@
 
     let lives = 3;
     let score = 0;
+    let fps;
+    let lastLoop = new Date();
 
     const brickSettings = {
       rowCount: 3,
@@ -55,9 +57,14 @@
     }
 
     function draw() {
+      let thisLoop = new Date();
+      fps = Math.round(1000 / (thisLoop - lastLoop))
+      lastLoop = thisLoop;
+
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       drawScore();
+      drawFPS();
       drawLives();
 
       drawPaddle();
@@ -107,6 +114,12 @@
       ctx.font = "16px Arial";
       ctx.fillStyle = "#0095DD";
       ctx.fillText(`Score: ${score}`, 8, 20);
+    }
+
+    function drawFPS() {
+      ctx.font = "16px Arial";
+      ctx.fillStyle = "#0095DD";
+      ctx.fillText(`FPS: ${fps}`, 180, 20);
     }
 
     function drawLives() {
